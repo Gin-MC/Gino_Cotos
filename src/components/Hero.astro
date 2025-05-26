@@ -1,0 +1,61 @@
+<section id="inicio" class="min-h-screen flex flex-col-reverse md:flex-row items-center justify-center gap-10 px-6 py-16">
+  <!-- Texto -->
+  <div class="text-center md:text-left max-w-xl" data-aos="fade-left" data-aos-duration="3000">
+    <h1 class="text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-bold mb-4 text-teal-400">Gino Cotos Carrión</h1>
+    <p class="text-base md:text-lg lg:text-xl xl:text-2xl mb-4">Desarrollador Full Stack | Apasionado por la tecnología</p>
+    <!-- Animación -->
+    <h2 class="text-xl font-mono md:text-2xl lg:text-3xl xl:text-4xl text-teal-400 mb-6 min-h-[2.5rem]">
+      <span id="typing"></span>
+    </h2>
+    
+    <!-- Redes + Botón -->
+    <div class="flex flex-wrap justify-center md:justify-start gap-6 items-center">
+      <a href="#" class="transition duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+        <img src="/iconos/icons8-github.svg" alt="GitHub" class="w-10 h-10 md:w-12 md:h-12" />
+      </a>
+      <a href="#" class="transition duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+        <img src="/iconos/icons8-instagram.svg" alt="Instagram" class="w-10 h-10 md:w-12 md:h-12" />
+      </a>
+      <a href="#" class="transition duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+        <img src="/iconos/icons8-whatsapp.svg" alt="Whatsapp" class="w-10 h-10 md:w-12 md:h-12" />
+      </a>
+      <a href="#" class="transition duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+        <img src="/iconos/icons8-gmail.svg" alt="Email" class="w-10 h-10 md:w-12 md:h-12" />
+      </a>
+      <a href="#contacto" class="inline-block mt-4 md:mt-0 px-6 py-3 bg-teal-400 text-zinc-800 font-semibold rounded-lg hover:bg-teal-500 transition">
+        Contáctame
+      </a>
+    </div>
+  </div>
+
+  <!-- Imagen -->
+  <div class="flex justify-center" data-aos="fade-right" data-aos-duration="3000">
+    <img src="/images/animado1.svg" alt="Avatar de Gino" class="w-48 h-48 md:w-60 md:h-60 lg:w-100 lg:h-100 xl:w-150 xl:h-150 hover:scale-110 transition duration-300" />
+  </div>
+</section>
+
+<!-- Animación JS -->
+<script>
+  const texts = ["Diseño web.", "Desarrollo full stack.", "Automatización inteligente.", "Pasión por el código."];
+  let count = 0;
+  let index = 0;
+  let currentText = '';
+  let letter = '';
+
+  (function type() {
+    if (count === texts.length) count = 0;
+    currentText = texts[count];
+    letter = currentText.slice(0, ++index);
+
+    document.getElementById('typing').textContent = letter;
+    if (letter.length === currentText.length) {
+      setTimeout(() => {
+        index = 0;
+        count++;
+        type();
+      }, 2000);
+    } else {
+      setTimeout(type, 100);
+    }
+  })();
+</script>

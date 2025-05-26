@@ -1,0 +1,68 @@
+<section id="contacto" class="min-h-screen flex items-center py-16 px-6 sm:px-10 md:px-16">
+  <div class="max-w-6xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
+
+    <!-- Formulario -->
+    <div id="formulario-container" class="w-full lg:w-1/2" data-aos="fade-left" data-aos-duration="3000">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-teal-400 mb-8 text-center lg:text-left">
+        ¡Creemos algo increíble juntos!
+      </h2>
+      <form id="formulario" class="space-y-5">
+        <input type="text" name="name" placeholder="Tu nombre"
+          class="w-full p-3 rounded bg-zinc-800 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
+          required />
+
+        <input type="email" name="email" placeholder="Tu email"
+          class="w-full p-3 rounded bg-zinc-800 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
+          required />
+
+        <textarea name="message" rows="5" placeholder="Tu mensaje"
+          class="w-full p-3 rounded bg-zinc-800 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
+          required></textarea>
+
+        <button type="submit"
+          class="w-full bg-teal-400 cursor-pointer hover:bg-teal-500 text-zinc-900 font-bold py-3 rounded transition duration-300">
+          Enviar
+        </button>
+      </form>
+      <!-- Mensaje de éxito oculto por defecto -->
+      <div id="mensaje-exito" class="hidden text-center bg-zinc-700 py-4 px-8 rounded-2xl mt-8 text-xl font-semibold transition-opacity duration-500">
+        😁 ¡Gracias por tu mensaje! Te responderé muy pronto.
+      </div>
+    </div>
+
+    <!-- Imagen e íconos -->
+    <div class="w-full lg:w-1/2 flex flex-col items-center gap-8" data-aos="fade-right" data-aos-duration="3000">
+      <img src="/images/animado5.3.svg" alt="hablando"
+        class="w-60 h-60 md:w-72 md:h-72 lg:w-100 lg:h-100 xl:w-120 xl:h-120 hover:scale-110 transition duration-300" />
+      <div class="flex flex-wrap justify-center gap-6">
+        <a href="#" class="transition hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+          <img src="/iconos/icons8-github.svg" alt="GitHub" class="w-10 h-10 md:w-12 md:h-12" />
+        </a>
+        <a href="#" class="transition hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+          <img src="/iconos/icons8-instagram.svg" alt="Instagram" class="w-10 h-10 md:w-12 md:h-12" />
+        </a>
+        <a href="#" class="transition hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+          <img src="/iconos/icons8-whatsapp.svg" alt="Whatsapp" class="w-10 h-10 md:w-12 md:h-12" />
+        </a>
+        <a href="#" class="transition hover:scale-110 hover:shadow-2xl hover:shadow-teal-300 rounded-full">
+          <img src="/iconos/icons8-gmail.svg" alt="Email" class="w-10 h-10 md:w-12 md:h-12" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("formulario");
+  const mensajeExito = document.getElementById("mensaje-exito");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // Evita el envío real
+
+    // Simulación de envío (aquí podrías usar fetch a Formspree o similar)
+    setTimeout(() => {
+      form.classList.add("hidden");
+      mensajeExito.classList.remove("hidden");
+    }, 500);
+  });
+</script>

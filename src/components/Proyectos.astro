@@ -1,0 +1,256 @@
+<section id="proyectos" class="min-h-screen items-center justify-center bg-gray-100  py-20">
+<div class="max-w-7xl mx-auto px-4">
+  <h2 class="text-3xl sm:text-4xl font-bold mt-12 mb-10 text-teal-400">Mis Proyectos</h2>
+
+  <!-- Contenedor del carrusel + botones -->
+  <div class="relative" data-aos="zoom-in" data-aos-duration="2000">
+    <div
+      id="carousel-container"
+      class="flex gap-6 overflow-hidden scroll-smooth snap-x snap-mandatory transition-all duration-300"
+    >
+      <!-- Aquí se insertarán las cards -->
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-center gap-4 mt-6">
+      <button id="prev-btn" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-full transition">
+        ←
+      </button>
+      <button id="next-btn" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-full transition">
+        →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Sección Skills + Estadísticas -->
+<div class="text-zinc-800 mt-12 py-20 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+  
+  <!-- Skills -->
+  <div data-aos="zoom-in" data-aos-duration="2000">
+    <h2 class="text-3xl font-bold mb-8 text-center md:text-left">Lenguajes usados</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-lg font-semibold">HTML</h3>
+        <div class="w-full h-3 bg-zinc-200 rounded-full">
+          <div class="h-3 bg-teal-500 rounded-l progress-bar" data-width="90%" style="width: 0;"></div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">CSS</h3>
+        <div class="w-full h-3 bg-zinc-200 rounded-full">
+          <div class="h-3 bg-teal-500 rounded-l progress-bar" data-width="40%" style="width: 0;"></div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">JavaScript</h3>
+        <div class="w-full h-3 bg-zinc-200 rounded-full">
+          <div class="h-3 bg-teal-500 rounded-l progress-bar" data-width="75%" style="width: 0;"></div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">C++</h3>
+        <div class="w-full h-3 bg-zinc-200 rounded-full">
+          <div class="h-3 bg-teal-500 rounded-l progress-bar" data-width="40%" style="width: 0;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estadísticas -->
+  <div class="text-center md:text-left" data-aos="zoom-in" data-aos-duration="2000">
+    <h2 class="text-3xl font-bold mb-8">Estadísticas</h2>
+    <div class="py-20 grid grid-cols-1 sm:grid-cols-3 gap-10 text-zinc-600">
+      <div>
+        <p class="text-5xl font-bold text-teal-600 counter" data-target="1">0</p>
+        <p class="mt-2">Año de experiencia</p>
+      </div>
+      <div>
+        <p class="text-5xl font-bold text-teal-600 counter" data-target="6">0</p>
+        <p class="mt-2">Proyectos completados</p>
+      </div>
+      <div>
+        <p class="text-5xl font-bold text-teal-600 counter" data-target="12">0</p>
+        <p class="mt-2">Tecnologías dominadas</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="module">
+  const proyectos = [
+    {
+      nombre: "App de musica",
+      imagen: "/Proyectos/pru.svg",
+      descripcion: "Simulador de Spotify.",
+      tecnologias: ["HTML", "Tailwind", "JavaScript"],
+      repositorio: "https://github.com/natdev/portafolio"
+    },
+    {
+      nombre: "App de Finanzas",
+      imagen: "/Proyectos/pru.svg",
+      descripcion: "Control de gastos con gráficos interactivos.",
+      tecnologias: ["Astro", "Chart.js", "LocalStorage"],
+      repositorio: "https://github.com/natdev/finanzas"
+    },
+    {
+      nombre: "Login",
+      imagen: "/Proyectos/pru.svg",
+      descripcion: "Logueo de usuarios con animaciones.",
+      tecnologias: ["Astro", "Tailwind", "JavaScript"],
+      repositorio: "https://github.com/natdev/lux"
+    },
+    {
+      nombre: "Juego Tetris",
+      imagen: "/Proyectos/pru.svg",
+      descripcion: "Juego de Tetris con animaciones.",
+      tecnologias: ["Astro", "Tailwind", "JavaScript"],
+      repositorio: "https://github.com/natdev/blog"
+    },
+    {
+      nombre: "Gestor de Tareas",
+      imagen: "/Proyectos/pru.svg",
+      descripcion: "App para gestionar tareas y productividad.",
+      tecnologias: ["Vue", "Tailwind", "Firebase"],
+      repositorio: "https://github.com/natdev/tareas"
+    },
+    {
+      nombre: "E-commerce",
+      imagen: "/Proyectos/pru.svg",
+      descripcion: "Interfaz de tienda online moderna y responsiva.",
+      tecnologias: ["React", "Tailwind"],
+      repositorio: "https://github.com/natdev/ecommerce"
+    }
+  ];
+
+  const container = document.getElementById("carousel-container");
+  const nextBtn = document.getElementById("next-btn");
+  const prevBtn = document.getElementById("prev-btn");
+
+  function crearCard({ nombre, imagen, descripcion, tecnologias, repositorio }) {
+    const techTags = tecnologias.map(t => `<span class="bg-teal-600 px-2 py-1 rounded text-sm">${t}</span>`).join(" ");
+    return `
+      <div class="bg-zinc-700 rounded-lg shadow-lg min-w-[90%] sm:min-w-[48%] lg:min-w-[32%] flex-shrink-0 snap-center">
+        <img src="${imagen}" alt="${nombre}" class="w-full h-60 object-cover rounded-t-lg" />
+        <div class="p-4 flex flex-col justify-between h-[240px]">
+          <div>
+            <h3 class="text-xl font-semibold mt-2 mb-2">${nombre}</h3>
+            <p class="text-sm text-zinc-300 mb-3">${descripcion}</p>
+            <div class="flex flex-wrap gap-2 mb-4">${techTags}</div>
+          </div>
+          <a href="${repositorio}" target="_blank" class="mt-auto inline-block text-teal-400 hover:text-teal-300 text-sm font-medium transition">Ver Repositorio →</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderizarProyectos() {
+    proyectos.forEach(p => {
+      const cardHTML = crearCard(p);
+      container.insertAdjacentHTML("beforeend", cardHTML);
+    });
+  }
+
+  function getCardsPerSlide() {
+    const width = window.innerWidth;
+    if (width >= 1024) return 3;
+    if (width >= 640) return 2;
+    return 1;
+  }
+
+  let currentIndex = 0;
+
+  function scrollToCard(index) {
+    const card = container.children[0];
+    const gap = parseInt(getComputedStyle(container).gap) || 24;
+    const scrollAmount = (card.offsetWidth + gap) * index;
+    container.scrollTo({ left: scrollAmount, behavior: "smooth" });
+  }
+
+  function avanzar() {
+    const cardsPerSlide = getCardsPerSlide();
+    currentIndex += cardsPerSlide;
+    if (currentIndex >= proyectos.length) currentIndex = 0;
+    scrollToCard(currentIndex);
+  }
+
+  function retroceder() {
+    const cardsPerSlide = getCardsPerSlide();
+    currentIndex -= cardsPerSlide;
+    if (currentIndex < 0) {
+      const slides = Math.floor(proyectos.length / cardsPerSlide);
+      currentIndex = slides * cardsPerSlide;
+      if (currentIndex >= proyectos.length) currentIndex = proyectos.length - cardsPerSlide;
+    }
+    scrollToCard(currentIndex);
+  }
+
+  nextBtn.addEventListener("click", avanzar);
+  prevBtn.addEventListener("click", retroceder);
+
+  // Auto scroll
+  let intervalo = setInterval(avanzar, 6000);
+
+  function pausarAutoScroll() {
+    clearInterval(intervalo);
+    intervalo = setInterval(avanzar, 6000);
+  }
+
+  container.addEventListener("mouseover", () => clearInterval(intervalo));
+  container.addEventListener("mouseout", pausarAutoScroll);
+
+  renderizarProyectos();
+  window.addEventListener("resize", () => scrollToCard(currentIndex));
+
+  // ANIMACIÓN DE CONTADOR
+  function animateCounter(element, end, duration = 2000) {
+    let start = 0;
+    const increment = end / (duration / 16);
+    const update = () => {
+      start += increment;
+      if (start < end) {
+        element.textContent = Math.floor(start);
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = end;
+      }
+    };
+    requestAnimationFrame(update);
+  }
+
+  // ANIMACIÓN DE BARRAS
+  function animateBars() {
+    document.querySelectorAll(".progress-bar").forEach(bar => {
+      const finalWidth = bar.dataset.width;
+      bar.style.transition = "width 1.5s ease-out";
+      bar.style.width = finalWidth;
+    });
+  }
+
+  // OBSERVER PARA DISPARAR ANIMACIONES AL ENTRAR EN VIEWPORT
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll(".counter").forEach(counter => {
+          const end = parseInt(counter.dataset.target);
+          animateCounter(counter, end);
+        });
+
+        entry.target.querySelectorAll(".progress-bar").forEach(bar => {
+          const finalWidth = bar.dataset.width;
+          bar.style.transition = "width 1.5s ease-out";
+          bar.style.width = finalWidth;
+        });
+
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll(".text-zinc-800").forEach(section => {
+    observer.observe(section);
+  });
+</script>
+
+</section>
