@@ -7,7 +7,7 @@
         ¡Creemos algo increíble juntos!
       </h2>
       <form id="formulario" class="space-y-5">
-        <input type="text" name="name" placeholder="Tu nombre"
+        <input type="text" name="nombre" placeholder="Tu nombre"
           class="w-full p-3 rounded bg-zinc-800 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
           required />
 
@@ -15,7 +15,7 @@
           class="w-full p-3 rounded bg-zinc-800 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
           required />
 
-        <textarea name="message" rows="5" placeholder="Tu mensaje"
+        <textarea name="mensaje" rows="5" placeholder="Tu mensaje"
           class="w-full p-3 rounded bg-zinc-800 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
           required></textarea>
 
@@ -53,16 +53,32 @@
 </section>
 
 <script>
-  const form = document.getElementById("formulario");
-  const mensajeExito = document.getElementById("mensaje-exito");
+const form = document.getElementById("formulario");
+const mensajeExito = document.getElementById("mensaje-exito");
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault(); // Evita el envío real
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    // Simulación de envío (aquí podrías usar fetch a Formspree o similar)
-    setTimeout(() => {
+  const nombre = e.target.nombre.value;
+  const email = e.target.email.value;
+  const mensaje = e.target.mensaje.value;
+
+  try {
+    const res = await fetch('http://localhost:3000/contacto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, email, mensaje }),
+    });
+
+    if (res.ok) {
       form.classList.add("hidden");
       mensajeExito.classList.remove("hidden");
-    }, 500);
-  });
+    } else {
+      alert('Hubo un error al enviar tu mensaje, intenta de nuevo.');
+    }
+  } catch (error) {
+    alert('No se pudo conectar con el servidor.');
+  }
+});
+
 </script>
