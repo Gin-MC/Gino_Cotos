@@ -76,6 +76,7 @@
     </div>
   </div>
 </div>
+</section>
 
 
 <script type="module">
@@ -132,7 +133,7 @@
     const techTags = tecnologias.map(t => `<span class="bg-teal-600 px-2 py-1 rounded text-sm">${t}</span>`).join(" ");
     return `
       <div class="bg-zinc-700 rounded-lg shadow-lg min-w-[90%] sm:min-w-[48%] lg:min-w-[32%] flex-shrink-0 snap-center">
-        <img src="${imagen}" alt="${nombre}" class="w-full h-60 object-cover rounded-t-lg" />
+        <img src="${imagen}" loading="lazy" alt="${nombre}" class="w-full h-60 object-cover rounded-t-lg" />
         <div class="p-4 flex flex-col justify-between h-[240px]">
           <div>
             <h3 class="text-xl font-semibold mt-2 mb-2">${nombre}</h3>
@@ -148,7 +149,7 @@
   function renderizarProyectos() {
     proyectos.forEach(p => {
       const cardHTML = crearCard(p);
-      container.insertAdjacentHTML("beforeend", cardHTML);
+      container.insertAdjacentHTML("beforeend", cardHTML);//beforeend para que se inserte al final
     });
   }
 
@@ -162,14 +163,14 @@
   let currentIndex = 0;
 
   function scrollToCard(index) {
-    const card = container.children[0];
-    const gap = parseInt(getComputedStyle(container).gap) || 24;
-    const scrollAmount = (card.offsetWidth + gap) * index;
+    const card = container.children[0];//primera card para obtener su ancho
+    const gap = 24;
+    const scrollAmount = (card.offsetWidth + gap) * index; //calcular el desplazamiento total
     container.scrollTo({ left: scrollAmount, behavior: "smooth" });
   }
 
   function avanzar() {
-    const cardsPerSlide = getCardsPerSlide();
+    const cardsPerSlide = getCardsPerSlide();//cantidad de cardrs a mostrar
     currentIndex += cardsPerSlide;
     if (currentIndex >= proyectos.length) currentIndex = 0;
     scrollToCard(currentIndex);
@@ -180,8 +181,8 @@
     currentIndex -= cardsPerSlide;
     if (currentIndex < 0) {
       const slides = Math.floor(proyectos.length / cardsPerSlide);
-      currentIndex = slides * cardsPerSlide;
-      if (currentIndex >= proyectos.length) currentIndex = proyectos.length - cardsPerSlide;
+      currentIndex = slides * cardsPerSlide;//mostrar el ultimo slide
+      if (currentIndex >= proyectos.length) currentIndex = proyectos.length - cardsPerSlide;// ajustar al último índice válido
     }
     scrollToCard(currentIndex);
   }
@@ -197,60 +198,59 @@
     intervalo = setInterval(avanzar, 6000);
   }
 
-  container.addEventListener("mouseover", () => clearInterval(intervalo));
-  container.addEventListener("mouseout", pausarAutoScroll);
+  container.addEventListener("mouseover", () => clearInterval(intervalo));// pausar el auto scroll
+  container.addEventListener("mouseout", pausarAutoScroll);// reanudar el auto scroll
 
   renderizarProyectos();
-  window.addEventListener("resize", () => scrollToCard(currentIndex));
+  window.addEventListener("resize", () => scrollToCard(currentIndex));// ajustar el scroll al cambiar el tamaño de la ventana
 
-  // ANIMACIÓN DE CONTADOR
-  function animateCounter(element, end, duration = 2000) {
-    let start = 0;
-    const increment = end / (duration / 16);
-    const update = () => {
-      start += increment;
-      if (start < end) {
-        element.textContent = Math.floor(start);
-        requestAnimationFrame(update);
-      } else {
-        element.textContent = end;
-      }
-    };
-    requestAnimationFrame(update);
-  }
 
-  // ANIMACIÓN DE BARRAS
-  function animateBars() {
-    document.querySelectorAll(".progress-bar").forEach(bar => {
-      const finalWidth = bar.dataset.width;
-      bar.style.transition = "width 1.5s ease-out";
-      bar.style.width = finalWidth;
-    });
-  }
+// ANIMACIÓN DE CONTADOR
+function animateCounter(element, end, duration = 2000) {
+  let start = 0;
+  const increment = end / (duration / 16);
+  const update = () => {
+    start += increment;
+    if (start < end) {
+      element.textContent = Math.floor(start);
+      requestAnimationFrame(update);
+    } else {
+      element.textContent = end;
+    }
+  };
+  requestAnimationFrame(update);
+}
 
-  // OBSERVER PARA DISPARAR ANIMACIONES AL ENTRAR EN VIEWPORT
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll(".counter").forEach(counter => {
-          const end = parseInt(counter.dataset.target);
-          animateCounter(counter, end);
-        });
-
-        entry.target.querySelectorAll(".progress-bar").forEach(bar => {
-          const finalWidth = bar.dataset.width;
-          bar.style.transition = "width 1.5s ease-out";
-          bar.style.width = finalWidth;
-        });
-
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  document.querySelectorAll(".text-zinc-800").forEach(section => {
-    observer.observe(section);
+// ANIMACIÓN DE BARRAS
+function animateBars(section) {
+  section.querySelectorAll(".progress-bar").forEach(bar => {
+    const finalWidth = bar.dataset.width;
+    bar.style.transition = "width 1.5s ease-out";
+    bar.style.width = finalWidth;
   });
-</script>
+}
 
-</section>
+// OBSERVER PARA DISPARAR ANIMACIONES AL ENTRAR EN VIEWPORT
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // Animar contadores
+      entry.target.querySelectorAll(".counter").forEach(counter => {
+        const end = parseInt(counter.dataset.target);
+        animateCounter(counter, end);
+      });
+
+      // Animar barras usando la función refactorizada
+      animateBars(entry.target);
+
+      // Dejar de observar para que no se vuelva a animar
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+// Iniciar observación sobre cada sección relevante
+document.querySelectorAll(".text-zinc-800").forEach(section => {
+  observer.observe(section);
+});
+</script>
