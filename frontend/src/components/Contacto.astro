@@ -2,7 +2,7 @@
   <div class="max-w-6xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
 
     <!-- Formulario -->
-    <div id="formulario-container" class="w-full lg:w-1/2" data-aos="fade-left" data-aos-duration="3000">
+    <div id="formulario-container" class="w-full lg:w-1/2" data-aos="zoom-in" data-aos-duration="3000">
       <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-teal-400 mb-8 text-center lg:text-left">
         ¡Creemos algo increíble juntos!
       </h2>
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Imagen e íconos -->
-    <div class="w-full lg:w-1/2 flex flex-col items-center gap-8" data-aos="fade-right" data-aos-duration="3000">
+    <div class="w-full lg:w-1/2 flex flex-col items-center gap-8" data-aos="zoom-in" data-aos-duration="3000">
       <img src="/images/animado5.3.svg" alt="hablando" loading="lazy"
         class="w-60 h-60 md:w-72 md:h-72 lg:w-100 lg:h-100 xl:w-120 xl:h-120 hover:scale-110 transition duration-300" />
       <div class="flex flex-wrap justify-center gap-6">
@@ -52,33 +52,35 @@
   </div>
 </section>
 
-<script>
-const form = document.getElementById("formulario");
-const mensajeExito = document.getElementById("mensaje-exito");
+  <script>
+  const form = document.getElementById("formulario");
+  const mensajeExito = document.getElementById("mensaje-exito");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();// Evita el envío del formulario por defecto
 
-  const nombre = e.target.nombre.value;
-  const email = e.target.email.value;
-  const mensaje = e.target.mensaje.value;
+    const target = e.target as HTMLFormElement;
 
-  try {
-    const res = await fetch('http://localhost:3000/contacto', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, email, mensaje }),
-    });
+    const nombre = target.nombre.value;
+    const email = target.email.value;
+    const mensaje = target.mensaje.value;
 
-    if (res.ok) {
-      form.classList.add("hidden");
-      mensajeExito.classList.remove("hidden");
-    } else {
-      alert('Hubo un error al enviar tu mensaje, intenta de nuevo.');
+    try {
+      const res = await fetch('http://localhost:3000/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, email, mensaje }),
+      });
+
+      if (res.ok) {
+        form.classList.add("hidden");
+        mensajeExito.classList.remove("hidden");
+      } else {
+        alert('Hubo un error al enviar tu mensaje, intenta de nuevo.');
+      }
+    } catch (error) {
+      alert('No se pudo conectar con el servidor.');
     }
-  } catch (error) {
-    alert('No se pudo conectar con el servidor.');
-  }
-});
+  });
 
-</script>
+  </script>
