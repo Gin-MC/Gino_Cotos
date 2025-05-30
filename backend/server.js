@@ -1,46 +1,59 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const { Pool } = require('pg');
+// Importaciones
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';//carga las variables de entorno desde un archivo .env
+import { Pool } from 'pg';
 
+// Cargar variables de entorno
+dotenv.config();
+
+// Crear app de Express
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Configura CORS para permitir peticiones desde el frontend (ajusta el origen)
-app.use(cors({
-  origin: 'http://localhost:4321', // Cambia este puerto si tu frontend corre en otro
-}));
+// Middleware
+app.use(cors());// Permitir solicitudes desde cualquier origen
+app.use(express.json()); // Para recibir datos en formato JSON
 
-app.use(express.json());
-
-// Conexión a PostgreSQL
+// Configuración de PostgreSQL con variables .env
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
+// Ruta de prueba
+app.get('/', (req, res) => {
+  res.send('Servidor activo');
+});
+
+// Ruta para recibir el formulario
 app.post('/contacto', async (req, res) => {
-  const { nombre, email, mensaje } = req.body;
+  const { nombre, email, mensaje } = req.body;// Desestructuración de los datos del formulario
 
   if (!nombre || !email || !mensaje) {
-    return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
   }
 
   try {
-    const query = `
-      INSERT INTO formulario_contacto (nombre, email, mensaje)
-      VALUES ($1, $2, $3)
-      RETURNING id_from, fecha
-    `;
-    const values = [nombre, email, mensaje];
-    const result = await pool.query(query, values);
+    await pool.query(
+      'INSERT INTO formulario_contacto (nombre, email, mensaje) VALUES ($1, $2, $3)',
+      [nombre, email, mensaje]
+    );
 
-    res.status(201).json({ mensaje: 'Mensaje guardado', id: result.rows[0].id_from, fecha: result.rows[0].fecha });
+    console.log('📥 Mensaje guardado en la base de datos');
+    res.status(200).json({ mensaje: 'Mensaje enviado con éxito.' });
   } catch (error) {
-    console.error('Error guardando el mensaje:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    console.error('❌ Error al guardar mensaje:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
   }
 });
 
+// Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
+//elimine el db.js
