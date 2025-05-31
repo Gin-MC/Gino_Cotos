@@ -25,7 +25,7 @@ const pool = new Pool({
 });
 
 // Ruta de prueba
-app.get('/', (req, res) => {
+app.get('/', (res) => {
   res.send('Servidor activo');
 });
 

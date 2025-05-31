@@ -153,16 +153,16 @@
     });
   }
 
-  function getCardsPerSlide() {
-    const width = window.innerWidth;
+  function getCardsPerSlide() {//cantidad de cardrs a mostrar
+    const width = window.innerWidth;//obtener el ancho de la ventana
     if (width >= 1024) return 3;
     if (width >= 640) return 2;
-    return 1;
+    return 1;//si el ancho es menor a 640
   }
 
   let currentIndex = 0;
 
-  function scrollToCard(index) {
+  function scrollToCard(index) {//función para desplazar el scroll
     const card = container.children[0];//primera card para obtener su ancho
     const gap = 24;
     const scrollAmount = (card.offsetWidth + gap) * index; //calcular el desplazamiento total
@@ -193,7 +193,7 @@
   // Auto scroll
   let intervalo = setInterval(avanzar, 6000);
 
-  function pausarAutoScroll() {
+  function pausarAutoScroll() {//pausar el auto scroll cuando el mouse esta sobre el contenedor
     clearInterval(intervalo);
     intervalo = setInterval(avanzar, 6000);
   }
